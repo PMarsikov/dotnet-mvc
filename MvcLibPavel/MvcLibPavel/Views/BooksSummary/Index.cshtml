@@ -1,0 +1,72 @@
+﻿@model IEnumerable<MvcLibPavel.Models.BooksSummary>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookYear)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AuthorFirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AuthorMiddleName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AuthorLastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AuthorBirthDay)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BookYear)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AuthorFirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AuthorMiddleName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AuthorLastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AuthorBirthDay)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
