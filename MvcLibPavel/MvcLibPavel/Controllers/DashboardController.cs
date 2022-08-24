@@ -6,6 +6,13 @@ namespace MvcLibPavel.Controllers
     {
         public IActionResult Index()
         {
+            var accessToken = HttpContext.Session.GetString("JWToken");
+
+            // check on null or somethng
+
+            //if not null - redirect
+            
+
             return View();
         }
     }

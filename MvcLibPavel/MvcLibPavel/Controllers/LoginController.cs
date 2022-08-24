@@ -42,9 +42,10 @@ namespace MvcLibPavel.Controllers
             }
         }
 
-        public IActionResult Logoff() 
+        public IActionResult Logoff()
         {
             HttpContext.Session.Clear();
+
             return Redirect("~/Login/Index");
         }
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MvcLibPavel.Models;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
@@ -11,8 +12,24 @@ namespace MvcLibPavel.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var getBooksSummary = await GetBooksSummary();
-            return View(getBooksSummary);
+            try
+            {
+                var getBooksSummary = await GetBooksSummary();
+                return View(getBooksSummary);
+            }
+            catch (HttpRequestException e)
+            {
+                //System.Console.WriteLine(e);
+              return  Redirect("~/Login/Index");
+                //throw;
+            }
+
+            catch (Exception e)
+            {
+                //TODO
+                return Redirect("~/DashboarError/Index");
+                //throw;
+            }
         }
         ////////////
         [HttpGet]
@@ -23,9 +40,21 @@ namespace MvcLibPavel.Controllers
             var url = baseUrl;
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            string jsonStr = await client.GetStringAsync(url);
+            
+            var response = await client.GetAsync(url);
 
-            var res = JsonConvert.DeserializeObject<List<BooksSummary>>(jsonStr).ToList();
+            try
+            {
+                response.EnsureSuccessStatusCode();
+            }
+            catch (HttpRequestException e)
+            {
+                throw;
+            }
+
+            var json = await response.Content.ReadAsStringAsync();
+
+            var res = JsonConvert.DeserializeObject<List<BooksSummary>>(json).ToList();
 
             return res;
         }
