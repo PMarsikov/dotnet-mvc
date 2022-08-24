@@ -7,11 +7,11 @@ using System.Text;
 
 namespace MvcLibPavel.Controllers
 {
-    public class HomeController : Controller
+    public class LoginController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<LoginController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public LoginController(ILogger<LoginController> logger)
         {
             _logger = logger;
         }
@@ -45,7 +45,7 @@ namespace MvcLibPavel.Controllers
         public IActionResult Logoff() 
         {
             HttpContext.Session.Clear();
-            return Redirect("~/Home/Index");
+            return Redirect("~/Login/Index");
         }
 
         public IActionResult Privacy()
