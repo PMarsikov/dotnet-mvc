@@ -33,8 +33,8 @@ namespace MvcLibPavel.Controllers
                     if (string.IsNullOrEmpty(token)) // if (token=="Invalid credentoals")
                     {
                         //redirect to home //6:04 // TODO
-                        //ViewBag.Message = "Incorrect UserId or Password!"
-                        //return Redirect("~/Home/Index");
+                        ViewBag.Message = "Incorrect UserId or Password!";
+                        return Redirect("~/BooksSummary/Index");
                     }
                     HttpContext.Session.SetString("JWToken", token);
                 }
