@@ -82,6 +82,7 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
     @RenderSection("myDataTable", false)
+    @RenderSection("booksSummaryDataTable", false)
     
     <script type="text/javascript">
         $(document).ready(function () {

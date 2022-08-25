@@ -5,17 +5,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+<h1>Books Catalog</h1>
+<hr/>
+<br/>
+<table id="tblBooksSummary" class="display" style="width:100%">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Title)
             </th>
@@ -34,15 +29,11 @@
             <th>
                 @Html.DisplayNameFor(model => model.AuthorBirthDay)
             </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
@@ -61,12 +52,29 @@
             <td>
                 @Html.DisplayFor(modelItem => item.AuthorBirthDay)
             </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
         </tr>
 }
     </tbody>
 </table>
+
+@section myDataTable{
+    
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.12.1/b-2.2.3/b-html5-2.2.3/datatables.min.js"></script>
+    <script></script>
+  <script>
+        $(document).ready( function () {
+            var table = $('#tblBooksSummary').DataTable(
+                {
+                    dom: 'Bfrtip',
+                    buttons: ['excel','csv','pdf']      
+                }
+            );
+
+            var data = table.buttons.exportData( {
+                columns: ':visible'
+            } );
+        });
+    </script>
+}
