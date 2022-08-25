@@ -8,7 +8,7 @@
 .sidenav {
     font-family: "Lato", sans-serif;
     height: 100%;
-    background-color: #7386D5;
+    background-color: #CCFFFF;
     overflow-x: hidden;
     padding-top: 20px;
 }
@@ -39,29 +39,22 @@
 
 @media screen and (min-width: 768px) {
     .main {
-        margin-left: 40%;
+        margin-left: 20%;
     }
 
     .sidenav {
-        width: 40%;
+        width: 20%;
         position: fixed;
         z-index: 1;
         top: 0;
         left: 0;
     }
 
-    .login-form {
-        margin-top: 80%;
-    }
-
-    .register-form {
-        margin-top: 20%;
-    }
 }
 
 
 .login-main-text {
-    margin-top: 40%;
+    margin-top: 20%;
     padding: 60px;
     color: #fff;
 }

@@ -16,7 +16,7 @@ namespace MvcLibPavel.Controllers
         }
 
         [HttpGet]
-        public async Task<List<Book>> GetBooks() 
+        public async Task<List<Book>> GetBooks()
         {
             //Use the access token to call a protected web API.
             var accessToken = HttpContext.Session.GetString("JWToken");
@@ -27,7 +27,7 @@ namespace MvcLibPavel.Controllers
 
             var res = JsonConvert.DeserializeObject<List<Book>>(jsonStr).ToList();
 
-            return res; 
+            return res;
         }
 
         public IActionResult Create()
@@ -55,7 +55,7 @@ namespace MvcLibPavel.Controllers
         //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null) 
+            if (id == null)
             {
                 return NotFound();
             }
