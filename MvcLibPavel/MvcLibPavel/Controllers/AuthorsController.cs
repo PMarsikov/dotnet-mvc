@@ -12,10 +12,22 @@ namespace MvcLibPavel.Controllers
    
         public async Task<IActionResult> Index()
         {
-            var authors = await GetAuthors();
-            return View(authors);
+            try
+            {
+                var authors = await GetAuthors();
+                return View(authors);
+            }
+            catch (HttpRequestException e)
+            {
+                return Redirect("~/Login/Index");
+            }
+
+            catch (Exception e)
+            {
+                return Redirect("~/DashboardError/Index");
+            }
         }
-        ////////////
+
         [HttpGet]
         public async Task<List<Author>> GetAuthors()
         {
@@ -52,8 +64,6 @@ namespace MvcLibPavel.Controllers
         }
 
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)

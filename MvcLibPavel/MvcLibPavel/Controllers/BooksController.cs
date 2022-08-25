@@ -11,8 +11,20 @@ namespace MvcLibPavel.Controllers
         public static string baseUrl = "https://localhost:7272/api/Books/";
         public async Task<IActionResult> Index()
         {
-            var books = await GetBooks();
-            return View(books);
+            try
+            {
+                var books = await GetBooks();
+                return View(books);
+            }
+            catch (HttpRequestException e)
+            {
+                return Redirect("~/Login/Index");
+            }
+
+            catch (Exception e)
+            {
+                return Redirect("~/DashboardError/Index");
+            }
         }
 
         [HttpGet]
@@ -51,8 +63,6 @@ namespace MvcLibPavel.Controllers
         }
 
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
