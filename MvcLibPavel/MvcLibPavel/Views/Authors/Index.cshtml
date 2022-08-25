@@ -5,12 +5,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
-
+<h3>Manage Authors</h3>
 <p>
-    <a asp-action="Create">Create New</a>
+	@Html.ActionLink("Add Author", "Create", "Authors", null ,new { @class = "btn btn-secondary" })
 </p>
-<table class="table">
+<hr>
+<br>
+<table id="tblAuthor" class="display" style="width:100%">
     <thead>
         <tr>
             <th>
@@ -50,11 +51,46 @@
                 @Html.DisplayFor(modelItem => item.AuthorBirthDay)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink("Edit", "Edit", new { id=item.Id, @class = "btn btn-info" }, new { @class = "btn btn-primary" }) 
+                @Html.ActionLink("Details", "Details", new { id=item.Id }, new { @class = "btn btn-info" }) 
+                @Html.ActionLink("Delete", "Delete", new { id=item.Id }, new { @class = "btn btn-danger" })
             </td>
         </tr>
 }
     </tbody>
 </table>
+
+@section myDataTable{
+    
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.12.1/b-2.2.3/b-html5-2.2.3/datatables.min.js"></script>
+    <script></script>
+    <script>
+        $(document).ready( function () {
+            var table = $('#tblAuthor').DataTable(
+                 {
+                    dom: 'Bfrtip',
+                    buttons: [
+                        {
+                            extend: 'excel',
+                            exportOptions: { columns: [ 0, 1, 2, 3, 4 ] }
+                        },
+                        {
+                            extend: 'csv',
+                            exportOptions: { columns: [ 0, 1, 2, 3, 4 ] }
+                        },
+                        {
+                            extend: 'pdf',
+                            exportOptions: { columns: [ 0, 1, 2, 3, 4 ] }
+                        }
+                    ]
+                }
+            );
+
+            var data = table.buttons.exportData( {
+                columns: ':visible'
+            } );
+        });
+    </script>
+}
