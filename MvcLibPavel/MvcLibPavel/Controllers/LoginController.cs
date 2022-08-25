@@ -38,7 +38,7 @@ namespace MvcLibPavel.Controllers
                     }
                     HttpContext.Session.SetString("JWToken", token);
                 }
-                return Redirect("~/Dashboard/Index");
+                return Redirect("~/BooksSummary/Index");
             }
         }
 

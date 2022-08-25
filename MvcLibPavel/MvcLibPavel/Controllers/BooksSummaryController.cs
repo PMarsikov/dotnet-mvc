@@ -19,19 +19,15 @@ namespace MvcLibPavel.Controllers
             }
             catch (HttpRequestException e)
             {
-                //System.Console.WriteLine(e);
-              return  Redirect("~/Login/Index");
-                //throw;
+                return Redirect("~/Login/Index");
             }
 
             catch (Exception e)
             {
-                //TODO
                 return Redirect("~/DashboarError/Index");
-                //throw;
             }
         }
-        ////////////
+
         [HttpGet]
         public async Task<List<BooksSummary>> GetBooksSummary()
         {
@@ -40,7 +36,7 @@ namespace MvcLibPavel.Controllers
             var url = baseUrl;
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            
+
             var response = await client.GetAsync(url);
 
             try
