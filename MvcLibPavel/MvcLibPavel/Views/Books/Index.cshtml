@@ -5,12 +5,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-    <h1>Index</h1>
+    <h3>Manage Books</h3>
 
     <p>
-        @Html.ActionLink("Add Book", "Create", "Books", null ,new { @class = "btn btn-success" })
+        @Html.ActionLink("Add Book", "Create", "Books", null ,new { @class = "btn btn-secondary" })
     </p>
-
+    <hr>
+    <br>
     <table id="tblBooks" class="display" style="width:100%">
     <thead>
         <tr>
