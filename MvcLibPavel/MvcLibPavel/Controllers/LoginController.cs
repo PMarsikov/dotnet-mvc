@@ -29,8 +29,8 @@ namespace MvcLibPavel.Controllers
                 using (var response = await httpClient.PostAsync("https://localhost:7272/Auth/login?data", stringContent))
                 {
                     var tmp = response;
-                    var token = await response.Content.ReadAsStringAsync();
-                    if (string.IsNullOrEmpty(token)) // if (token=="Invalid credentoals")
+                    var token = await response.Content.ReadAsStringAsync();// ToDo FIX!!!!!
+                    if (string.IsNullOrEmpty(token)) // if (token=="Invalid credentoals") 
                     {
                         //redirect to home //6:04 // TODO
                         ViewBag.Message = "Incorrect UserId or Password!";
