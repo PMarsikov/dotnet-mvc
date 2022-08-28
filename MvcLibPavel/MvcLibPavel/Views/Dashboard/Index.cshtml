@@ -1,8 +1,13 @@
-﻿
+﻿@using Microsoft.AspNetCore.Http;
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var accessToken = @Context.Session.GetString("JWToken");
 }
 
-<h1>Welcome to Library!</h1>
+<h1>Welcome to the Library!</h1>
+  @if (accessToken == null)
+    {
+        <h2><a asp-controller="Login" asp-action="Index">Login</a> to see content</h2>
+    }
 
