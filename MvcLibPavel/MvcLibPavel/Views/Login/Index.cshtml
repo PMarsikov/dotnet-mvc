@@ -11,6 +11,7 @@
             <p>Login or register from here to access.</p>
          </div>
       </div>
+      
       <div class="main">
          <div class="col-md-6 col-sm-12">
             <div class="login-form" align-middle>
@@ -26,6 +27,9 @@
                      <input asp-for="Password" type="password" class="form-control" placeholder="Password">
                      <span asp-validation-for="Password" class="text-danger"></span>
                   </div>
+                  
+                  <div class="text-danger">@ViewData["ErrorMessage"]</div>
+                  <br>
                   <button type="submit" class="btn btn-black">Login</button>
                   <button type="submit" class="btn btn-secondary">Register</button>
                </form>

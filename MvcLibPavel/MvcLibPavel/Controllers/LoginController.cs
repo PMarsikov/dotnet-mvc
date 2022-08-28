@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using MvcLibPavel.Models;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Net;
 using System.Text;
 
 namespace MvcLibPavel.Controllers
@@ -26,20 +27,40 @@ namespace MvcLibPavel.Controllers
             using (var httpClient = new HttpClient())
             {
                 StringContent stringContent = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
-                using (var response = await httpClient.PostAsync("https://localhost:7272/Auth/login?data", stringContent))
+
+                var retriesLeft = 10;
+                while (retriesLeft > 0)
                 {
-                    var tmp = response;
-                    var token = await response.Content.ReadAsStringAsync();// ToDo FIX!!!!!
-                    if (string.IsNullOrEmpty(token)) // if (token=="Invalid credentoals") 
+                    try
                     {
-                        //redirect to home //6:04 // TODO
-                        ViewBag.Message = "Incorrect UserId or Password!";
-                        return Redirect("~/BooksSummary/Index");
+                        var response = await httpClient.PostAsync("https://localhost:7272/Auth/login?data", stringContent);
+                        if (response.StatusCode == HttpStatusCode.NotFound)
+                        {
+                            break;
+                        }
+                        using (response)
+                        {
+                            var token = await response.Content.ReadAsStringAsync();
+                            if (!response.IsSuccessStatusCode)
+                            {
+                                ViewBag.ErrorMessage= "Incorrect UserId or Password!";
+                                return View("Index");
+                            }
+                            HttpContext.Session.SetString("JWToken", token);
+                            break;
+                        }
                     }
-                    HttpContext.Session.SetString("JWToken", token);
+                    catch
+                    {
+                        retriesLeft--;
+                        if (retriesLeft == 0)
+                        {
+                            throw;
+                        }
+                    }
                 }
-                return Redirect("~/BooksSummary/Index");
             }
+            return Redirect("~/BooksSummary/Index");
         }
 
         public IActionResult Logoff()
