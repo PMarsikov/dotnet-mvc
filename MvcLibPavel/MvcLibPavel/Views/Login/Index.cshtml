@@ -31,8 +31,9 @@
                   <div class="text-danger">@ViewData["ErrorMessage"]</div>
                   <br>
                   <button type="submit" class="btn btn-black">Login</button>
-                  <button type="submit" class="btn btn-secondary">Register</button>
+                  <input type="button" class="btn btn-secondary" value="Register" onclick="@("window.location.href='" + @Url.Action("Index", "Register") + "'");" />
                </form>
             </div>
          </div>
       </div>
+    

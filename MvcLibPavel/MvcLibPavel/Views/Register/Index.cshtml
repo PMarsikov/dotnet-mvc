@@ -6,24 +6,34 @@
 
 
 <div class="sidenav">
-         <div class="">
-            <h2>Application<br> Login Page</h2>
-            <p>Login or register from here to access.</p>
+         <div class="login-main-text" align-middle>
+            <h2>Library<br></h2>
+            <h3>Registration form<br></h3>
+            
          </div>
       </div>
+      
       <div class="main">
          <div class="col-md-6 col-sm-12">
-            <div class="login-form">
-               <form>
+            <div class="login-form" align-middle>
+               <form asp-action="RegisterUser" asp-controller="Register">
+                  <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                   <div class="form-group">
-                     <label>User Name</label>
-                     <input type="text" class="form-control" placeholder="User Name">
+                     <label asp-for="UserName">User Name</label>
+                     <input asp-for="UserName" type="text" class="form-control" placeholder="User Name">
+                     <span asp-validation-for="UserName" class="text-danger"></span>
                   </div>
                   <div class="form-group">
-                     <label>Password</label>
-                     <input type="password" class="form-control" placeholder="Password">
-                  <button type="submit" class="btn btn-secondary">Register</button>
+                     <label asp-for="Password">Password</label>
+                     <input asp-for="Password" type="password" class="form-control" placeholder="Password">
+                     <span asp-validation-for="Password" class="text-danger"></span>
+                  </div>
+                  
+                  <div class="text-danger">@ViewData["ErrorMessage"]</div>
+                  <br>
+                  <button type="submit" class="btn btn-black">Register</button>
                </form>
             </div>
          </div>
       </div>
+    
