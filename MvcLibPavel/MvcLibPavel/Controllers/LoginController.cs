@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MvcLibPavel.Configs;
+using MvcLibPavel.Constants;
 using MvcLibPavel.Models;
 using Newtonsoft.Json;
 using System.Diagnostics;
@@ -11,10 +13,12 @@ namespace MvcLibPavel.Controllers
     public class LoginController : Controller
     {
         private readonly ILogger<LoginController> _logger;
+        private readonly Settings _settings;
 
         public LoginController(ILogger<LoginController> logger)
         {
             _logger = logger;
+            _settings = new Configs.Configs().GetConfig();
         }
 
         public IActionResult Index()
@@ -28,12 +32,12 @@ namespace MvcLibPavel.Controllers
             {
                 StringContent stringContent = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
 
-                var retriesLeft = 10;
+                var retriesLeft = LibConstants.RetriesNumber;
                 while (retriesLeft > 0)
                 {
                     try
                     {
-                        var response = await httpClient.PostAsync("https://localhost:7272/Auth/login?data", stringContent);
+                        var response = await httpClient.PostAsync(_settings.LoginPath, stringContent);
                         if (response.StatusCode == HttpStatusCode.NotFound)
                         {
                             break;

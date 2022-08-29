@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MvcLibPavel.Configs;
+using MvcLibPavel.Constants;
 using MvcLibPavel.Models;
 using Newtonsoft.Json;
 using Polly;
@@ -9,7 +11,11 @@ namespace MvcLibPavel.Controllers
 {
     public class BooksSummaryController : Controller
     {
-        public static string baseUrl = "https://localhost:7272/api/BooksDetails";
+        private readonly Settings _settings;
+        public BooksSummaryController()
+        {
+            _settings = new Configs.Configs().GetConfig();
+        }
 
         public async Task<IActionResult> Index()
         {
@@ -33,16 +39,15 @@ namespace MvcLibPavel.Controllers
         public async Task<List<BooksSummary>> GetBooksSummary()
         {
             var httpClient = new HttpClient();
-            var maxRetryAttempts = 3;
             List<BooksSummary> res = new List<BooksSummary>();
             var retryPolicy = Policy
                 .Handle<HttpRequestException>()
-                .RetryAsync(maxRetryAttempts);
+                .RetryAsync(LibConstants.MaxRetryAttempts);
            
                 await retryPolicy.ExecuteAsync(async () =>
                 {
                     var accessToken = HttpContext.Session.GetString("JWToken");
-                    var url = baseUrl;
+                    var url = _settings.BooksDetailsPath;
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
                     var response = await httpClient.GetAsync(url);

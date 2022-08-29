@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MvcLibPavel.Configs;
 using MvcLibPavel.Models;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
@@ -8,8 +9,12 @@ namespace MvcLibPavel.Controllers
 {
     public class AuthorsController : Controller
     {
-        public static string baseUrl = "https://localhost:7272/api/Author/";
-   
+        private readonly Settings _settings;
+        public AuthorsController()
+        {
+            _settings = new Configs.Configs().GetConfig();
+        }
+
         public async Task<IActionResult> Index()
         {
             try
@@ -33,7 +38,7 @@ namespace MvcLibPavel.Controllers
         {
             //Use the access token to call a protected web API.
             var accessToken = HttpContext.Session.GetString("JWToken");
-            var url = baseUrl;
+            var url = _settings.AuthorPath; 
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             string jsonStr = await client.GetStringAsync(url);
@@ -53,7 +58,7 @@ namespace MvcLibPavel.Controllers
         public async Task<IActionResult> Create([Bind("Id, AuthorFirstName, AuthorMiddleName, AuthorLastName, AuthorBirthDay")] Author author)
         {
             var accessToken = HttpContext.Session.GetString("JWToken");
-            var url = baseUrl;
+            var url = _settings.AuthorPath;
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
@@ -71,7 +76,7 @@ namespace MvcLibPavel.Controllers
                 return NotFound();
             }
             var accessToken = HttpContext.Session.GetString("JWToken");
-            var url = baseUrl + id;
+            var url = _settings.AuthorPath + id;
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
@@ -94,7 +99,7 @@ namespace MvcLibPavel.Controllers
                 return NotFound();
             }
             var accessToken = HttpContext.Session.GetString("JWToken");
-            var url = baseUrl;// + id;
+            var url = _settings.AuthorPath;
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
@@ -112,7 +117,7 @@ namespace MvcLibPavel.Controllers
                 return NotFound();
             }
             var accessToken = HttpContext.Session.GetString("JWToken");
-            var url = baseUrl + id;
+            var url = _settings.AuthorPath + id;
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
@@ -131,7 +136,7 @@ namespace MvcLibPavel.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var accessToken = HttpContext.Session.GetString("JWToken");
-            var url = baseUrl + id;
+            var url = _settings.AuthorPath + id;
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             await client.DeleteAsync(url);
@@ -146,7 +151,7 @@ namespace MvcLibPavel.Controllers
             }
 
             var accessToken = HttpContext.Session.GetString("JWToken");
-            var url = baseUrl + id;
+            var url = _settings.AuthorPath + id;
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             string jsonStr = await client.GetStringAsync(url);
