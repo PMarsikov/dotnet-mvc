@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using MvcLibPavel.Configs;
 using MvcLibPavel.Constants;
+using MvcLibPavel.Controllers.Interfaces;
 using MvcLibPavel.Models;
 using Newtonsoft.Json;
 using Polly;
+using RestEase;
 using System.Net.Http.Headers;
 
 namespace MvcLibPavel.Controllers
@@ -48,21 +50,18 @@ namespace MvcLibPavel.Controllers
                 {
                     var accessToken = HttpContext.Session.GetString("JWToken");
                     var url = _settings.BooksDetailsPath;
-                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-                    var response = await httpClient.GetAsync(url);
+                    IBooksSummaryController api = RestClient.For<IBooksSummaryController>(url);
+                    api.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
                     try
                     {
-                        response.EnsureSuccessStatusCode();
+                        var json = await api.GetAsync();
+                        res = JsonConvert.DeserializeObject<List<BooksSummary>>(json).ToList();
                     }
-                    catch (HttpRequestException e)
+                    catch
                     {
                         throw;
                     }
-
-                    var json = await response.Content.ReadAsStringAsync();
-                    res = JsonConvert.DeserializeObject<List<BooksSummary>>(json).ToList();
                 });
             return res;
         }
